@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
 });
 
 //pre-hook to store password securely
+// pre saving data into sever; therefore save option
 userSchema.pre('save', async function(next) {
     try {
         //if password inst hashes yet then leave it alone and move on
@@ -36,7 +37,15 @@ userSchema.pre('save', async function(next) {
 }) ;
 
 // document specific method
- 
+userSchema.method.comparePaswword = async function(somePassword, next) {
+    try {
+        // this will return true or false after promise resolves
+        let isMatch  = await bcrypt.compare(somePassword, this.password);
+        return isMatch;
+    } catch(err) {
+        return next(err);
+    }
+} ;
 
 
 // model for user

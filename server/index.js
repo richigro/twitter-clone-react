@@ -1,5 +1,8 @@
 'use strict'
 
+//load all enviroment variables ready for use
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
